@@ -27,7 +27,7 @@ aws route53 change-resource-record-sets \
     ,"Changes": [{
       "Action"              : "UPSERT"
       ,"ResourceRecordSet"  : {
-        "Name"              : "'$rec_name"
+        "Name"              : "'$rec_name'"
         ,"Type"             : "A"
         ,"TTL"              : 1
         ,"ResourceRecords"  : [{
