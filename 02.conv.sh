@@ -16,3 +16,19 @@ aws route53 change-resource-record-sets \
     }
   }]
 }"
+
+ {
+    "Comment": "Updating record set"
+    ,"Changes": [{
+      "Action"              : "UPSERT"
+      ,"ResourceRecordSet"  : {
+        "Name"              : "'$rec_name'"
+        ,"Type"             : "A"
+        ,"TTL"              : 1
+        ,"ResourceRecords"  : [{
+            "Value"         : "' $IP '"
+        }]
+      }
+    }]
+  }
+  '
