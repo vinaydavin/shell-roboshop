@@ -5,7 +5,7 @@ sg_id="sg-05ff4bd44c0bc3ba5"
 subnet_id="subnet-04d4f1ebfd040d45e"
 zone_id="Z08339141ZNV0KWJ5D2UQ"
 domain_name="vdavin.online"
-key="vdavin key.pem"
+key="vdavin-pem.pem"
 
 for instance in $@
 do
