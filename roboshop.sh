@@ -39,7 +39,7 @@ aws route53 change-resource-record-sets \
 }"
 done
 
-if [ $A -ne 0 ]; then
-  aws ec2 describe-instances --filters "Name=private-ip-address,Values=$IP" --query "Reservations[].Instances
-[].{InstanceId:InstanceId,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" --output table
-fi
+aws ec2 describe-instances \
+--filters "Name=private-ip-address,Values=$IP" \
+--query "Reservations[].Instances[].{InstanceId:InstanceId,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" \
+--output table
