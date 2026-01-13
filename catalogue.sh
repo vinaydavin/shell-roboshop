@@ -24,10 +24,10 @@ fi
 
 validate(){
   if [ $1 -ne 0 ]; then
-    echo -e "$2 installation ${red}FAILED${reset}" | tee -a ${log_file}
+    echo -e "$2 ${red}FAILED${reset}" | tee -a ${log_file}
     exit 1
   else
-    echo -e "${green}$2 installed successfully${reset}" | tee -a ${log_file}
+    echo -e "${green}$2 ...${reset}" | tee -a ${log_file}
   fi
 }
 
@@ -60,7 +60,7 @@ unzip /tmp/catalogue.zip &>> ${log_file}
 
 npm install &>> ${log_file}
    
-cp script_dir/catalogue.service /etc/systemd/system/catalogue.service &>> ${log_file}
+cp $script_dir/catalogue.service /etc/systemd/system/catalogue.service &>> ${log_file}
 validate $? "Copy systemctl service file"
 systemctl daemon-reload &>> ${log_file}
 validate $? "Reloading systemctl daemon"
@@ -69,7 +69,7 @@ validate $? "Enabling catalogue service"
 systemctl start catalogue &>> ${log_file}
 validate $? "Starting catalogue service"
 
-cp script_dir/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
+cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
 validate $? "Adding Mongodb Repo"
 dnf install mongodb-mongosh -y &>> ${log_file}
 validate $? "Installing Mongodb Client"
