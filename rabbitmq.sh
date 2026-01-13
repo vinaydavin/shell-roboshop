@@ -26,6 +26,10 @@ validate(){
   fi
 }
 
+dnf install -y erlang &>> ${log_file}
+validate $? "Installing Erlang"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> ${log_file}
+validate $? "Adding RabbitMQ Repo"
 dnf install rabbitmq-server -y &>> ${log_file}
 validate $? "Installing RabbitMQ"
 systemctl enable rabbitmq-server &>> ${log_file}
