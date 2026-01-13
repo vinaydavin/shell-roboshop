@@ -42,10 +42,8 @@ dnf install nodejs -y &>> ${log_file}
 validate $? "Installing Nodejs"
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "Adding system user"
 
 mkdir /app 
-validate $? "Creating App Directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> ${log_file}
 validate $? "Downloading Catalogue App Content"
