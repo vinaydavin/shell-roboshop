@@ -74,8 +74,13 @@ validate $? "Adding Mongodb Repo"
 dnf install mongodb-mongosh -y &>> ${log_file}
 validate $? "Installing Mongodb Client"
 
+INDEX=$(mongosh mongodb.vdavin.online --quiet --eval "db.getMongo().getDBName().indexOf('catalogue')" &>> ${log_file})
+if [ $INDEX -le 0 ]; then
 mongosh --host mongodb.vdavin.online </app/db/master-data.js &>> ${log_file}
 validate $? "Loading Catalogue Data" 
+else
+    echo -e "${yellow}Catalogue Data already present. Skipping Catalogue Data Load.${reset}" | tee -a ${log_file}
+fi  
 
 systemctl restart catalogue &>> ${log_file}
 validate $? "Restarting catalogue service"
