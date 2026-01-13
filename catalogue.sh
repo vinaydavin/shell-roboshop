@@ -7,7 +7,7 @@ green="\e[32m"
 yellow="\e[33m"
 reset="\e[0m"
 
-mongodb_host=$(mongodb.vdavin.online)
+mongodb_host=$mongodb.vdavin.online
 logs_dir="/var/log/shell-script"
 mkdir -p ${logs_dir}
 
