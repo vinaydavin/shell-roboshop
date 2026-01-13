@@ -6,7 +6,7 @@ subnet_id="subnet-04d4f1ebfd040d45e"
 zone_id="Z08339141ZNV0KWJ5D2UQ"
 domain_name="vdavin.online"
 key="vdavin-pem"
-A=$?
+
 
 for instance in $@
 do
@@ -39,7 +39,12 @@ aws route53 change-resource-record-sets \
 }"
 done
 
-aws ec2 describe-instances \
---filters "Name=private-ip-address,Values=$IP" \
---query "Reservations[].Instances[].{InstanceId:InstanceId,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" \
---output table
+
+pub_ip=$(aws ec2 describe-instances --instance-ids $inst_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+    rec_name="$domain_name"
+    
+a=$(aws ec2 describe-instances \
+--filters "Name=private-ip-address,Values=$pub_ip" \
+--query "Reservations[].Instances[].PublicIP:PublicIpAddress" \
+--output table)
+echo "ssh -i "vdavin-pem.pem" ec2-user@$a.compute-1.amazonaws.com
