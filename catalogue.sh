@@ -74,7 +74,7 @@ validate $? "Adding Mongodb Repo"
 dnf install mongodb-mongosh -y &>> ${log_file}
 validate $? "Installing Mongodb Client"
 
-mongosh --host $mongodb_host </app/db/master-data.js &>> ${log_file}
+mongosh --host mongodb.vdavin.online </app/db/master-data.js &>> ${log_file}
 validate $? "Loading Catalogue Data" 
 
 systemctl restart catalogue &>> ${log_file}
