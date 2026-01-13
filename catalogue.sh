@@ -34,7 +34,7 @@ validate(){
 dnf remove nodejs -y &>> ${log_file}
 validate $? "Disabling Nodejs Module"
 
-dnf module enable nodejs:20 -y &>> ${log_file}
+curl -fsSL https://rpm.nodesource.com/setup_20.x &>> ${log_file}
 validate $? "Enabling Nodejs 20 Module"
 
 dnf install nodejs -y &>> ${log_file}
