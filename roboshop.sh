@@ -42,9 +42,5 @@ done
 
 pub_ip=$(aws ec2 describe-instances --instance-ids $inst_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
     rec_name="$domain_name"
-    
-a=$(aws ec2 describe-instances \
---filters "Name=private-ip-address,Values=$pub_ip" \
---query "Reservations[].Instances[].PublicIP:PublicIpAddress" \
---output table)
+
 echo "ssh -i "vdavin-pem.pem" ec2-user@$a.compute-1.amazonaws.com
