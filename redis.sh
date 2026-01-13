@@ -19,7 +19,7 @@ if [ $userid -ne 0 ]; then
 fi
 validate(){
   if [ $1 -ne 0 ]; then
-    echo -e "$2 installation ${red}FAILED${reset}" | tee -a ${log_file}
+    echo -e "$2 ${red}FAILED${reset}" | tee -a ${log_file}
     exit 1
   else
     echo -e "${green}$2 .....${reset}" | tee -a ${log_file}
@@ -33,7 +33,7 @@ validate $? "Enabling Redis 7 Module"
 dnf install redis -y &>> ${log_file}
 validate $? "Installing Redis"
 
-sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c proteted-mode no' /etc/redis/redis.conf &>> ${log_file}
+sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf &>> ${log_file}
 validate $? "Updating Redis Configuration"  
 systemctl enable redis &>> ${log_file}
 validate $? "Enabling Redis Service"
