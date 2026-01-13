@@ -40,3 +40,9 @@ validate $? "Enabling MongoDB Service"
 
 systemctl start mongod
 validate $? "Starting MongoDB Service"
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+validate $? "Allowing Remote Connections to mongodb"
+
+systemctl restart mongod &>> ${log_file}
+validate $? "Restarting MongoDB Service"  
