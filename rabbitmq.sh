@@ -26,18 +26,19 @@ validate(){
   fi
 }
 
-dnf install mysql-server -y &>> ${log_file}
-validate $? "Installing MySQL"
+dnf install rabbitmq-server -y &>> ${log_file}
+validate $? "Installing RabbitMQ"
+systemctl enable rabbitmq-server &>> ${log_file}
+validate $? "Enabling RabbitMQ Service" 
+systemctl start rabbitmq-server &>> ${log_file}
+validate $? "Starting RabbitMQ Service"
 
-systemctl enable mysqld &>> ${log_file}
-validate $? "Enabling MySQL Service"
+rabbitmqctl add_user roboshop roboshop123 &>> ${log_file}
+validate $? "Adding RabbitMQ User"
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> ${log_file}
+validate $? "Setting RabbitMQ User Permissions"
 
-systemctl start mysqld &>> ${log_file}
-validate $? "Starting MySQL Service"
-
-mysql_secure_installation --set-root-pass RoboShop@1 &>> ${log_file}
-validate $? "Setting MySQL Root Password"   
-
+cp $script_dir/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> ${log_file}
 end_time=$(date +%s)
 total_time=$(($end_time - $start_time))
-echo -e "${green}Total time taken to install Mysql: ${total_time} seconds${reset}" | tee -a ${log_file}
+echo -e "${green}Total time taken to install RabbitMQ: ${total_time} seconds${reset}" | tee -a ${log_file}
