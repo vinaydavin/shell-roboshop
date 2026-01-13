@@ -31,7 +31,7 @@ validate(){
 }
 
 #### NodeJS Installation ####
-dnf module disable nodejs -y &>> ${log_file}
+dnf remove nodejs -y &>> ${log_file}
 validate $? "Disabling Nodejs Module"
 
 dnf module enable nodejs:20 -y &>> ${log_file}
