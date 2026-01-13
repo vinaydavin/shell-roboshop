@@ -43,4 +43,4 @@ done
 pub_ip=$(aws ec2 describe-instances --instance-ids $inst_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
     rec_name="$domain_name"
 
-echo "ssh -i /"vdavin-pem.pem/" ec2-user@${pub_ip}.compute-1.amazonaws.com"
+echo "ssh -i \"vdavin-pem.pem\" ec2-user@${pub_ip}.compute-1.amazonaws.com"
