@@ -12,6 +12,7 @@ logs_dir="/var/log/shell-script"
 mkdir -p ${logs_dir}
 
 script_name=$(basename "$0" .sh)
+script_dir=$PWD
 log_file="${logs_dir}/${script_name}.log"
 
 echo "Script started at: $(date)" | tee -a ${log_file}
@@ -55,7 +56,7 @@ unzip /tmp/catalogue.zip &>> ${log_file}
 validate $? "Extracting Catalogue App Content"
 npm install &>> ${log_file}
 validate $? "Installing Nodejs Dependencies"    
-cp catalogue.service /etc/systemd/system/catalogue.service &>> ${log_file}
+cp script_dir/catalogue.service /etc/systemd/system/catalogue.service &>> ${log_file}
 validate $? "Copy systemctl service file"
 systemctl daemon-reload &>> ${log_file}
 validate $? "Reloading systemctl daemon"
