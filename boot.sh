@@ -1,3 +1,2 @@
 #! /bin/bash
-
-sudo dnf install git -y
+sudo yum install git -y
