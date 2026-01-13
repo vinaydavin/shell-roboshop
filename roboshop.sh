@@ -6,6 +6,7 @@ subnet_id="subnet-04d4f1ebfd040d45e"
 zone_id="Z08339141ZNV0KWJ5D2UQ"
 domain_name="vdavin.online"
 key="vdavin-pem"
+A=$?
 
 for instance in $@
 do
@@ -38,7 +39,7 @@ aws route53 change-resource-record-sets \
 }"
 done
 
-if [ $? -eq 0 ]; then
+if [ $A -ne 0 ]; then
   aws ec2 describe-instances --filters "Name=private-ip-address,Values=$IP" --query "Reservations[].Instances
 [].{InstanceId:InstanceId,PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress}" --output table
 fi
