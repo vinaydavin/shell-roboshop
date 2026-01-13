@@ -39,3 +39,7 @@ systemctl enable redis &>> ${log_file}
 validate $? "Enabling Redis Service"
 systemctl start redis &>> ${log_file}
 validate $? "Starting Redis Service"
+
+end_time=$(date +%s)
+total_time=$(($end_time - $start_time))
+echo -e "${green}Total time taken to install Redis: ${total_time} seconds${reset}" | tee -a ${log_file}
