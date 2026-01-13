@@ -1,6 +1,6 @@
 #! /bin/bash
 userid=$(id -u)
-
+script_dir=$PWD
 red="\e[31m"
 green="\e[32m"
 yellow="\e[33m"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 userid=$(id -u)
-
+script_dir=$PWD
 red="\e[31m"
 green="\e[32m"
 yellow="\e[33m"
@@ -29,7 +29,7 @@ validate(){
   fi
 }
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
+cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
 validate $? "Adding Mongo Repo"
 
 dnf install mongodb-org -y &>> ${log_file}

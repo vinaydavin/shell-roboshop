@@ -1,5 +1,5 @@
 #!/bin/bash
-
+script_dir=$PWD
 ami_id="ami-07ff62358b87c7116"
 sg_id="sg-05ff4bd44c0bc3ba5"
 subnet_id="subnet-04d4f1ebfd040d45e"
@@ -10,7 +10,7 @@ key="vdavin-pem"
 
 for instance in $@
 do
-    inst_id=$(aws ec2 run-instances --image-id $ami_id --instance-type t3.micro --subnet-id $subnet_id --security-group-ids $sg_id --key-name $key --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
+    inst_id=$(aws ec2 run-instances --image-id $ami_id --instance-type t3.micro --subnet-id $subnet_id --security-group-ids $sg_id --key-name $key --user-data $script_dir/boot.sh --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
 if [ $instance != "frontend" ]; then
     IP=$(aws ec2 describe-instances --instance-ids $inst_id --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text)
     rec_name="$instance.$domain_name"
