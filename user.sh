@@ -6,11 +6,11 @@ red="\e[31m"
 green="\e[32m"
 yellow="\e[33m"
 reset="\e[0m"
-
+start_time=$(date +%s)
 mongodb_host=$mongodb.vdavin.online
 logs_dir="/var/log/shell-script"
 mkdir -p ${logs_dir}
-start_time=$(date +%s)
+
 script_name=$(basename "$0" .sh)
 script_dir=$PWD
 log_file="${logs_dir}/${script_name}.log"
@@ -49,42 +49,29 @@ else
 fi
 mkdir -p /app 
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> ${log_file}
-validate $? "Downloading Catalogue App Content"
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> ${log_file}
+validate $? "Downloading user App Content"
 
 cd /app 
 rm -rf /app/* &>> ${log_file}
 validate $? "Cleaning /app Directory"
 
-unzip /tmp/catalogue.zip &>> ${log_file}
+unzip /tmp/user.zip &>> ${log_file}
 
 npm install &>> ${log_file}
    
-cp $script_dir/catalogue.service /etc/systemd/system/catalogue.service &>> ${log_file}
+cp $script_dir/user.service /etc/systemd/system/user.service &>> ${log_file}
 validate $? "Copy systemctl service file"
 systemctl daemon-reload &>> ${log_file}
 validate $? "Reloading systemctl daemon"
-systemctl enable catalogue &>> ${log_file}
-validate $? "Enabling catalogue service"
-systemctl start catalogue &>> ${log_file}
-validate $? "Starting catalogue service"
+systemctl enable user &>> ${log_file}
+validate $? "Enabling user service"
+systemctl start user &>> ${log_file}
+validate $? "Starting user service"
 
-cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
-validate $? "Adding Mongodb Repo"
-dnf install mongodb-mongosh -y &>> ${log_file}
-validate $? "Installing Mongodb Client"
-
-INDEX=$(mongosh mongodb.vdavin.online --quiet --eval "db.getMongo().getDBName().indexOf('catalogue')" &>> ${log_file})
-if [ $INDEX -le 0 ]; then
-mongosh --host mongodb.vdavin.online </app/db/master-data.js &>> ${log_file}
-validate $? "Loading Catalogue Data" 
-else
-    echo -e "${yellow}Catalogue Data already present. Skipping Catalogue Data Load.${reset}" | tee -a ${log_file}
-fi  
-
-systemctl restart catalogue &>> ${log_file}
-validate $? "Restarting catalogue service"
+systemctl restart user &>> ${log_file}
+validate $? "Restarting user service"
 
 end_time=$(date +%s)
 total_time=$(($end_time - $start_time))
-echo -e "${green}Total time taken to install Redis: ${total_time} seconds${reset}" | tee -a ${log_file}
+echo -e "${green}Total time taken to install User: ${total_time} seconds${reset}" | tee -a ${log_file}
