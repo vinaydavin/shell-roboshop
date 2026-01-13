@@ -26,8 +26,6 @@ validate(){
   fi
 }
 
-dnf module disable redis -y &>> ${log_file}
-validate $? "Disabling Old Redis Module"
 dnf module enable redis:7 -y &>> ${log_file}
 validate $? "Enabling Redis 7 Module"
 dnf install redis -y &>> ${log_file}
