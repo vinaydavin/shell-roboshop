@@ -2,10 +2,10 @@
 
 userid=$(id -u)
 
-red="\e[31m"
-green="\e[32m"
-yellow="\e[33m"
-reset="\e[0m"
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 
 mongodb_host=$mongodb.vdavin.online
 logs_dir="/var/log/shell-script"
@@ -18,16 +18,16 @@ log_file="${logs_dir}/${script_name}.log"
 echo "Script started at: $(date)" | tee -a ${log_file}
 
 if [ $userid -ne 0 ]; then
-  echo -e "${yellow}You must be root to run this script.${reset}" | tee -a ${log_file}
+  echo -e "${Y}You must be root to run this script.${N}" | tee -a ${log_file}
   exit 1
 fi
 
 validate(){
   if [ $1 -ne 0 ]; then
-    echo -e "$2 ${red}FAILED${reset}" | tee -a ${log_file}
+    echo -e "$2 ${R}FAILED${N}" | tee -a ${log_file}
     exit 1
   else
-    echo -e "${green}$2 ...${reset}" | tee -a ${log_file}
+    echo -e "${G}$2 ...${N}" | tee -a ${log_file}
   fi
 }
 
@@ -45,7 +45,7 @@ id roboshop
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> ${log_file}
 else
-    echo -e "${yellow}roboshop user already exists. Skipping user creation step.${reset}" | tee -a ${log_file}
+    echo -e "${Y}roboshop user already exists. Skipping user creation step.${N}" | tee -a ${log_file}
 fi
 mkdir -p /app 
 
@@ -79,7 +79,7 @@ if [ $INDEX -le 0 ]; then
 mongosh --host mongodb.vdavin.online </app/db/master-data.js &>> ${log_file}
 validate $? "Loading Catalogue Data" 
 else
-    echo -e "${yellow}Catalogue Data already present. Skipping Catalogue Data Load.${reset}" | tee -a ${log_file}
+    echo -e "${Y}Catalogue Data already present. Skipping Catalogue Data Load.${N}" | tee -a ${log_file}
 fi  
 
 systemctl restart catalogue &>> ${log_file}
@@ -87,4 +87,4 @@ validate $? "Restarting catalogue service"
 
 end_time=$(date +%s)
 total_time=$(($end_time - $start_time))
-echo -e "${green}Total time taken to install Redis: ${total_time} seconds${reset}" | tee -a ${log_file}
+echo -e "${G}Total time taken to install Ris: ${total_time} seconds${N}" | tee -a ${log_file}
