@@ -1,6 +1,6 @@
 #!/bin/bash
 script_dir=$PWD
-ami_id="ami-09c813fb71547fc4f"
+ami_id="ami-0220d79f3f480ecf5"
 sg_id="sg-05ff4bd44c0bc3ba5"
 subnet_id="subnet-04d4f1ebfd040d45e"
 zone_id="Z08339141ZNV0KWJ5D2UQ"

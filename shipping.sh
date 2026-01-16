@@ -70,7 +70,7 @@ validate $? "Enabling shipping service"
 systemctl start shipping &>> ${log_file}
 validate $? "Starting shipping service"
 
-dnf install mysql -y &>> ${log_file}
+sudo dnf install -y mariadb105 &>> ${log_file}
 validate $? "Installing Mysql Client"
 
 mysql -h mysql.vdavin.online -uroot -pRoboShop@1 -e 'use mysql'
